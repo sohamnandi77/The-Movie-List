@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<div class="main-content">
+  <div class="movie-info">
+    <div class="movie-poster">
+      <img class="poster" height="400" width="250" src="{{poster}}" />
+    </div>
+    <div class="movie-content">
+      <section class="header">
+        <h2 id="title" style="color: white">{{title}}</h2>
+        <div class="facts" style="color: white">
+          <span class="release_date">{{release_date}}</span>
+          <span class="genres">{{genres}}</span>
+          <span class="runtime">{{runtime}}</span>
+          <span class="status">{{status}}</span>
+        </div>
+        <h6 id="vote_average" style="color: white">
+          <div class="card-text">
+            <i class="fa fa-star checked"></i
+            >&nbsp;{{vote_average}}/10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            ({{vote_count}} votes)
+          </div>
+        </h6>
+        <div id="overview" style="color: white">
+          <h3>OVERVIEW</h3>
+          <div class="overview">{{overview}}</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- cast details modals -->
+
+  <!-- {% for name, details in cast_details.items() if not cast_details.hidden %}
+  <div
+    class="modal fade"
+    id="{{details[0]}}"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel3"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div
+          class="modal-header"
+          style="background-color: #e50914; color: white"
+        >
+          <h5 class="modal-title" id="exampleModalLabel3">{{name}}</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true" style="color: white">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <img
+            class="profile-pic"
+            src="{{details[1]}}"
+            alt="{{name}} - profile"
+            style="width: 250px; height: 400px; border-radius: 10px"
+          />
+          <div style="margin-left: 20px">
+            <p><strong>Birthday:</strong> {{details[2]}}</p>
+            <p><strong>Place of Birth:</strong> {{details[3]}}</p>
+            <p></p>
+            <p><strong>Biography:</strong></p>
+            <p>{{details[4]}}</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %} -->
+
+  <div class="cast">
+    {% if casts|length > 1 %}
+    <div class="movie" style="color: #e8e8e8">
+      <center>
+        <h2 style="font-family: 'Rowdies', cursive">TOP CAST</h2>
+        <!-- <h5>(Click on the cast to know more)</h5> -->
+      </center>
+    </div>
+
+    <div class="card-style">
+      {% for name, details in casts.items() if not casts.hidden %}
+      <div class="card" style="background-image: url({{details[2]}});">
+        <div class="card-content">
+          <h2 class="card-title">{{name|upper}}</h2>
+          <p class="card-body">AS {{details[1]|upper}}</p>
+          <!-- <a
+            href=""
+            class="button"
+            data-toggle="modal"
+            data-target="#{{details[0]}}"
+            >Learn More</a
+          > -->
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  <div class="reviews">
+    <center>
+      {% if reviews %}
+      <h2 style="font-family: 'Rowdies', cursive; color: white">
+        USER REVIEWS
+      </h2>
+      <div class="col-md-12" style="margin: 0 auto; margin-top: 25px">
+        <table
+          class="table table-bordered"
+          bordercolor="white"
+          style="color: white"
+        >
+          <thead>
+            <tr>
+              <th class="text-center" scope="col" style="width: 75%">
+                Comments
+              </th>
+              <th class="text-center" scope="col">Sentiments</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for review, status in reviews.items() if not reviews.hidden %} {%
+            if status =='Positive' %}
+            <tr style="background-color: rgba(52, 103, 81, 0.85)">
+              <td>{{review}}</td>
+              <td><center>{{status}} : &#128515;</center></td>
+            </tr>
+
+            {% else %}
+            <tr style="background-color: rgba(218, 0, 55, 0.85)">
+              <td>{{review}}</td>
+              <td><center>{{status}} : &#128534;</center></td>
+            </tr>
+
+            {% endif %} {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% if (curr_date) and (movie_rel_date) %} {% elif curr_date <
+      movie_rel_date %}
+      <div style="color: white">
+        <h1 style="color: white">
+          This movie is not released yet. Stay tuned!
+        </h1>
+      </div>
+      {% else %}
+      <div style="color: white">
+        <h1 style="color: white">
+          Sorry, the reviews for this movie are not available! :(
+        </h1>
+      </div>
+      {% endif %} {% else %}
+      <div style="color: white">
+        <h1 style="color: white">
+          Sorry, the reviews for this movie are not available! :(
+        </h1>
+      </div>
+      {% endif %}
+    </center>
+  </div>
+  <div class="recommendation">
+    {% if movie_cards|length > 1 %}
+
+    <div class="movie" style="color: #e8e8e8">
+      <center>
+        <h2 style="font-family: 'Rowdies', cursive">
+          RECOMMENDED MOVIES FOR YOU
+        </h2>
+        <h5>(Click any of the movies to get recommendation)</h5>
+      </center>
+    </div>
+
+    <div class="card-style">
+      {% for poster, details in movie_cards.items() if not movie_cards.hidden %}
+      <div
+        class="card"
+        style="background-image: url({{poster}});"
+        title="{{details[1]}}"
+        onclick="recommendcard(this)"
+      >
+        <div class="card-content">
+          <h2 class="card-title">{{details[0]|upper}}</h2>
+          <div class="card-body">
+            <div class="card-text">{{details[3]}}</div>
+            <div class="card-text">
+              <i class="fa fa-star checked"></i>&nbsp;{{details[2]}}/10
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</div>
