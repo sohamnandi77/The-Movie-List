@@ -280,7 +280,7 @@ function get_individual_cast(movie_cast, my_api_key) {
         movie_cast.cast_ids[cast_id] +
         "?api_key=" +
         my_api_key,
-      async: false,
+      async: true,
       success: function (cast_details) {
         cast_bdays.push(
           new Date(cast_details.birthday)
